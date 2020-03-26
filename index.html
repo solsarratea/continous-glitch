@@ -3,18 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="style.css">
     <title>Creepy Faces!</title>
   </head>
   <body>
     <h1>continous glitch</h1>
+     
     <script src="/js/algorithms.js"><</script>
+    <script src="/js/stopwatch.js"><</script>
+    <h2 id="time" unselectable="on">00:00:00</h2> 
+
     <script>
      
       let img = new Image();
       img.src = "media/george.jpg";
       img.id = "glitch";
-    
       timeout = 5000;
+
       document.body.style.backgroundImage = `url(${img.src})`;
       document.body.style.width= "100%";
       document.body.style.backgroundPositionX = "center";
@@ -77,7 +82,8 @@
           updateImage(oldImage,newImage); 
         },timeout)
       }
-    
+      s = new Stopwatch(document.getElementById('time'));
+      s.start();
     </script>
   </body>
 </html>
