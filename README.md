@@ -1,16 +1,21 @@
-https://github.com/snorpey/glitch-canvas
+#### Continous Glitch
+
+   This is a work in progress project.
+
+### Main idea: 
+   Becoming rotten images in digital medium.
 
 
-Views
+## Glitch effects:
+   Mainly from https://github.com/mncaudill/3bitdither
 
-Index 
--Upload photo -> static photo
--Start “timer” -> customize it
 
-Glitch
+# Structuring views
+   Index 
+      - Upload photo // static photo
+      - Customize frecuency of glitching
+      - Start process -> give id
 
-Show picture
-      -	Show clock
-      -    glitch worker: apply glitch in X amount of time -> update picture
-		https://github.com/snorpey/glitch-canvas
-      -    would be nice to have slideshow 
+   Continous-Glitch
+      - Display photo and counter
+      - Would be nice to have slideshow
