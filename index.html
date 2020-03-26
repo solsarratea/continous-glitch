@@ -10,30 +10,44 @@
 
     <script src="/js/glitch-canvas-browser.js"></script>
     <script>
-      const image = new Image();
-      image.src = "media/george.jpg";
-    
-
+      let img = new Image();
+      img.src = "media/george.jpg";
+      img.id="glitch";
+      img.width=300;
+      document.body.appendChild(img);
+  
       
       async function creepify(img) {        
         const glitchParams = {
-          seed:       50, // integer between 0 and 99
-          quality:    1, // integer between 0 and 99
-          amount:     1 , // integer between 0 and 99
-          iterations: 1 // integer
+          seed:       Math.random(98)*10, // integer between 0 and 99
+          quality:    Math.random(10)*10, // integer between 0 and 99
+          amount:     Math.random(10)*10, // integer between 0 and 99
+          iterations: Math.random(3)*10 // integer
         };
+
+        console.log(glitchParams)
         const newImageUrl = await glitch(glitchParams).fromImage(img).toDataURL();
-        const newImage = new Image();        
+        const newImage = new Image();     
         newImage.src = newImageUrl;
+        newImage.width=300;
         return newImage;
       }
 
-      
+  
+      img.onload = function() {    
+      setTimeout(async function(){
+          let image = document.getElementById("glitch");
+          glitchedImage = await creepify(image);
+          if (glitchedImage.src){
+            console.log("glitched")
+            console.log(glitchedImage.src)
+            img.src= glitchedImage.src;
+          }
+        
+        },5000);
+    }
 
-      image.onload = async function() {     
-        image = await creepify(image);
-      };
-
+  
       
       
     </script>
