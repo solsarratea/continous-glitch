@@ -6,50 +6,78 @@
     <title>Creepy Faces!</title>
   </head>
   <body>
-    <h1>Creepy Faces!</h1>
-
-    <script src="/js/glitch-canvas-browser.js"></script>
+    <h1>continous glitch</h1>
+    <script src="/js/algorithms.js"><</script>
     <script>
+     
       let img = new Image();
       img.src = "media/george.jpg";
-      img.id="glitch";
-      img.width=300;
-      document.body.appendChild(img);
-  
+      img.id = "glitch";
+    
+      timeout = 5000;
+      document.body.style.backgroundImage = `url(${img.src})`;
+      document.body.style.width= "100%";
+      document.body.style.backgroundPositionX = "center";
+
+     function ditherGlitch(image){
+      let newImage = new Image();
+      var canvas = document.createElement('canvas');  
+          canvas.height = image.height,
+          canvas.width = image.width,
+          ctx    = canvas.getContext('2d');
+
+          ctx.drawImage(image,0,0);
+          let imgData = ctx.getImageData(0,0,image.width, image.height); 
       
-      async function creepify(img) {        
-        const glitchParams = {
-          seed:       Math.random(98)*10, // integer between 0 and 99
-          quality:    Math.random(10)*10, // integer between 0 and 99
-          amount:     Math.random(10)*10, // integer between 0 and 99
-          iterations: Math.random(3)*10 // integer
-        };
-
-        console.log(glitchParams)
-        const newImageUrl = await glitch(glitchParams).fromImage(img).toDataURL();
-        const newImage = new Image();     
-        newImage.src = newImageUrl;
-        newImage.width=300;
-        return newImage;
+      var randomEf = Math.floor(Math.random() * 10) + 1;
+     
+      switch (randomEf) {
+        case 1:
+          ditherBayer(imgData);
+          break;
+        case 2:
+          ditherHalftone(imgData);
+          break;
+        case 3:
+          ditherAtkinsons(imgData);
+          break;
+        case 4:
+          ditherFloydSteinberg(imgData);
+          break;
+        case 5:
+          dither8Bit(imgData);
+          break;
+        case 6:
+          randomColor(imgData);
+          break;
+        case 7:
+          colorInvertVerticalBand(imgData);
+          break;
+        default:
+          colorInvertHorizontalBand(imgData);
+          break;
       }
-
-  
-      img.onload = function() {    
-      setTimeout(async function(){
-          let image = document.getElementById("glitch");
-          glitchedImage = await creepify(image);
-          if (glitchedImage.src){
-            console.log("glitched")
-            console.log(glitchedImage.src)
-            img.src= glitchedImage.src;
-          }
         
-        },5000);
+      ctx.putImageData(imgData, 0, 0);
+      newImage.src = canvas.toDataURL("image/png");
+
+      return newImage;
     }
 
-  
-      
-      
+    function updateImage(oldImage, newImage){
+        oldImage.src = newImage.src;
+        document.body.style.backgroundImage = `url(${img.src})`;
+      }
+
+    img.onload = function() {
+        setTimeout( () => {
+          var oldImage = img;
+         
+          let newImage = ditherGlitch(oldImage);
+          updateImage(oldImage,newImage); 
+        },timeout)
+      }
+    
     </script>
   </body>
 </html>
