@@ -3,87 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <title>Creepy Faces!</title>
+    <title>Continouse glitch</title>
   </head>
   <body>
-    <h1>continous glitch</h1>
-     
-    <script src="/js/algorithms.js"><</script>
-    <script src="/js/stopwatch.js"><</script>
-    <h2 id="time" unselectable="on">00:00:00</h2> 
-
+    <h1>Continous glitch</h1>
     <script>
-     
-      let img = new Image();
-      img.src = "media/george.jpg";
-      img.id = "glitch";
-      timeout = 5000;
+    window.addEventListener('load', function() {
+        document.querySelector('input[type="file"]').addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                window.location.href = "continous";
+                img.src =createObjectURL(this.files[0]);
 
-      document.body.style.backgroundImage = `url(${img.src})`;
-      document.body.style.width= "100%";
-      document.body.style.backgroundPositionX = "center";
+            }
+        });
+      });
 
-     function ditherGlitch(image){
-      let newImage = new Image();
-      var canvas = document.createElement('canvas');  
-          canvas.height = image.height,
-          canvas.width = image.width,
-          ctx    = canvas.getContext('2d');
-
-          ctx.drawImage(image,0,0);
-          let imgData = ctx.getImageData(0,0,image.width, image.height); 
-      
-      var randomEf = Math.floor(Math.random() * 10) + 1;
-     
-      switch (randomEf) {
-        case 1:
-          ditherBayer(imgData);
-          break;
-        case 2:
-          ditherHalftone(imgData);
-          break;
-        case 3:
-          ditherAtkinsons(imgData);
-          break;
-        case 4:
-          ditherFloydSteinberg(imgData);
-          break;
-        case 5:
-          dither8Bit(imgData);
-          break;
-        case 6:
-          randomColor(imgData);
-          break;
-        case 7:
-          colorInvertVerticalBand(imgData);
-          break;
-        default:
-          colorInvertHorizontalBand(imgData);
-          break;
-      }
-        
-      ctx.putImageData(imgData, 0, 0);
-      newImage.src = canvas.toDataURL("image/png");
-
-      return newImage;
-    }
-
-    function updateImage(oldImage, newImage){
-        oldImage.src = newImage.src;
-        document.body.style.backgroundImage = `url(${img.src})`;
-      }
-
-    img.onload = function() {
-        setTimeout( () => {
-          var oldImage = img;
-         
-          let newImage = ditherGlitch(oldImage);
-          updateImage(oldImage,newImage); 
-        },timeout)
-      }
-      s = new Stopwatch(document.getElementById('time'));
-      s.start();
     </script>
+    <input type='file'/>
   </body>
 </html>
