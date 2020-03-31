@@ -1,0 +1,20 @@
+{
+  "name": "continous-glitch",
+  "version": "1.0.0",
+  "description": "Continous corruption of digital image",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/solsarratea/continous-glitch.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/solsarratea/continous-glitch/issues"
+  },
+  "homepage": "https://github.com/solsarratea/continous-glitch#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.6"
+  }
+}

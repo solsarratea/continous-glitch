@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Continouse glitch</title>
+  </head>
+  
+  <body>
+    <h1>Continous glitch</h1>
+    <script>
+    var img = new Image();
+    window.addEventListener('load', function() {
+        document.querySelector('input[type="file"]').addEventListener('change', function() {
+            if (this.files && this.files[0]) { 
+             const file = this.files[0];
+             let formData = new FormData();
+            formData.append('image', file)
+
+             const params = {
+              method: 'POST',
+              body: formData,
+            };
+
+            fetch('/saveImage', params).then(response => response.json())
+            .then(data => {
+              img.src = data.path;
+              console.log(data.path)
+              window.location.href = `continous?img=${data.path}`;
+            })
+            .catch(error => {
+              console.error(error)
+            })
+            }
+        });
+      });
+
+    </script>
+    <input type='file'/>
+  </body>
+</html>

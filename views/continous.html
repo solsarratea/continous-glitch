@@ -8,8 +8,8 @@
   </head>
   <body>
     <h1>continous glitch</h1>
-    <script src="/js/glitcher.js"></script>
-    <script src="/js/stopwatch.js"></script>
+    <script src="/glitcher.js"></script>
+    <script src="/stopwatch.js"></script>
 
     <h2 id="time" unselectable="on">00:00:00</h2> 
     <script>
@@ -28,7 +28,7 @@
     let params = getParams(window.location.href);
     let img = new Image();
     console.log(params)
-   // img.src = params.img;
+    img.src = params.img;
     img.id = "glitch";
     timeout = 5000;
 
