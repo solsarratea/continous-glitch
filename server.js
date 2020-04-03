@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
-const fileupload = require('express-fileupload')
+const fileupload = require('express-fileupload');
+var short = require('short-uuid');
 
 
 // make all the files in 'public' available
@@ -9,22 +10,18 @@ app.use(
     fileupload()
     );
 
-app.use(express.static("js")); //Serves resources from public folder
-app.use(express.static("media"));
-
-// https://expressjs.com/en/starter/basic-routing.html
-app.get("/", (request, response) => {
-  response.sendFile(__dirname + "/views/index.html");
-});
+app.use(express.static("public"))
+app.use(express.static("public/media"))
 
 app.get("/continous", (request, response) => {
-    response.sendFile(__dirname + "/views/continous.html");
- });
+  response.sendFile(__dirname + "/public/continous.html");
+});
 
 app.post('/saveImage', (req, res) => {
     const image = req.files.image;
-    const fileName = image.name;
-    const path = __dirname + '/media/' + fileName
+    const fileName = short.generate();
+    const path = __dirname + '/public/media/' + fileName
+
   
     image.mv(path, (error) => {
       if (error) {
@@ -39,7 +36,7 @@ app.post('/saveImage', (req, res) => {
       res.writeHead(200, {
         'Content-Type': 'application/json'
       })
-      res.end(JSON.stringify({ status: 'success', path: '/' + fileName }))
+      res.end(JSON.stringify({ status: 'success', path: fileName }))
     })
   })
 

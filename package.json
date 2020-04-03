@@ -15,6 +15,7 @@
   "homepage": "https://github.com/solsarratea/continous-glitch#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "express-fileupload": "^1.1.6"
+    "express-fileupload": "^1.1.6",
+    "short-uuid": "^3.1.1"
   }
 }

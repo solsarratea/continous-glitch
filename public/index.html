@@ -9,7 +9,7 @@
   <body>
     <h1>Continous glitch</h1>
     <script>
-    var img = new Image();
+    var img = new Image();  
     window.addEventListener('load', function() {
         document.querySelector('input[type="file"]').addEventListener('change', function() {
             if (this.files && this.files[0]) { 
@@ -27,7 +27,7 @@
               img.src = data.path;
               console.log(data.path)
               
-              window.location.href = `continous?img=${data.path}`;
+              window.location.href = `continous?${data.path}`;
            //   window.location.href = `continous/${uniqueID}`;
             })
             .catch(error => {
