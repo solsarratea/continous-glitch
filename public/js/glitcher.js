@@ -398,13 +398,14 @@ class Glitcher {
     }
 
 
-    start(frequency){
+    start() {
         this.state = 1;
+        const freq = this.frequency;
         img.onload = function() {
             setTimeout( () => {
                 let newImage = ditherGlitch(img);
                 updateImage(img,newImage);
-            },frequency)
+            },freq)
         }
     }
 
