@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="text/javascript" src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/addons/p5.sound.min.js"></script>
+    <script type="text/javascript" src="js/sketch.js"></script>
     <title>Continouse glitch</title>
   </head>
   
@@ -28,7 +32,7 @@
               console.log(data.path)
               
               window.location.href = `continous?${data.path}`;
-           //   window.location.href = `continous/${uniqueID}`;
+           
             })
             .catch(error => {
               console.error(error)

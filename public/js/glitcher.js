@@ -280,6 +280,8 @@ function ditherFloydSteinberg(imageData) {
     var width = imageData.width,
         height = imageData.height,
         data = imageData.data;
+    var data2 = imageData.data;
+
     for (var y = 0; y < height; y++) {
         for (var x = 0; x < width; x++) {
             i = 4 * (y * width + x);
@@ -333,19 +335,11 @@ function ditherFloydSteinberg(imageData) {
 function updateImage(oldImage, newImage){
     oldImage.src = newImage.src;
     document.body.style.backgroundImage = `url(${img.src})`;
+    
 }
 
-function ditherGlitch(image){
-let newImage = new Image();
-var canvas = document.createElement('canvas');  
-    canvas.height = image.height,
-    canvas.width = image.width,
-    ctx    = canvas.getContext('2d');
-
-    ctx.drawImage(image,0,0);
-    let imgData = ctx.getImageData(0,0,image.width, image.height); 
-
-var randomEf = Math.floor(Math.random() * 10) + 1;
+function randomGlitch(imgData){
+    var randomEf = Math.floor(Math.random() * 10) + 1;
 
 switch (randomEf) {
     case 1:
@@ -373,11 +367,25 @@ switch (randomEf) {
     colorInvertHorizontalBand(imgData);
     break;
 }
-    
-ctx.putImageData(imgData, 0, 0);
-newImage.src = canvas.toDataURL("image/png");
 
-return newImage;
+}
+
+function ditherGlitch(image){
+    let newImage = new Image();
+    var canvas = document.createElement('canvas');  
+        canvas.height = image.height,
+        canvas.width = image.width,
+        ctx    = canvas.getContext('2d');
+    
+        ctx.drawImage(image,0,0);
+        let imgData = ctx.getImageData(0,0,image.width, image.height); 
+        randomGlitch(imgData)
+
+        
+    ctx.putImageData(imgData, 0, 0);
+    newImage.src = canvas.toDataURL("image/png");
+
+    return newImage;
 }
 
 var createGUID = function() {

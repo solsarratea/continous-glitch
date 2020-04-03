@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="style.css">
+    <script type="text/javascript" src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/addons/p5.sound.min.js"></script>
+    <script type="text/javascript" src="js/sketch.js"></script>
     <title>Creepy Faces!</title>
   </head>
   <body>
@@ -20,8 +24,15 @@
       return query;
     };
     let param = getParam(window.location.href);
+ 
+    fetch(`/loadImage/${param}`, {
+              method: 'GET',
+            }).then(response => response.json())
+            .catch(error => {
+              console.error(error) })
+              
     let img = new Image();
-    console.log(param)
+
     img.src = param;
     img.id = "glitch";
     timeout = 5000;
