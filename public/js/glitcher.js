@@ -377,14 +377,13 @@ function ditherGlitch(image){
         canvas.width = image.width,
         ctx    = canvas.getContext('2d');
     
-        ctx.drawImage(image,0,0);
-        let imgData = ctx.getImageData(0,0,image.width, image.height); 
-        randomGlitch(imgData)
-
-        
+    ctx.drawImage(image,0,0);
+    let imgData = ctx.getImageData(0,0,image.width, image.height); 
+    randomGlitch(imgData)
     ctx.putImageData(imgData, 0, 0);
     newImage.src = canvas.toDataURL("image/png");
 
+    socket.emit('image',newImage.src);
     return newImage;
 }
 

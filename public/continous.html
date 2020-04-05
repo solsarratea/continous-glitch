@@ -42,9 +42,15 @@
 
     document.body.style.backgroundImage = `url(${img.src})`;
     document.body.style.width= "100%";
-    document.body.style.backgroundPositionX = "center";
+    document.body.style.backgroundPositionX = "center","center";
     glitcher.start(timeout);
     s.start()
+    if (socket){
+      socket.on('imageDOM',
+            function(path){
+              document.body.style.backgroundImage = `url(${img.src}), url(${path})`;
+            })
+    }
     </script>
   </body>
 </html>

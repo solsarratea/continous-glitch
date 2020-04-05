@@ -35,17 +35,25 @@ var io = require('socket.io')(server);
 io.sockets.on('connection',
   function (socket) {
   
-    console.log("We have a new client: " + socket.id);
+    console.log("New client: " + socket.id);
   
     socket.on('mouse',
       function(data) {
-        // Data comes in as whatever was sent, including objects
-        console.log("Received: 'mouse' " + data.x + " " + data.y);
-      
-        // Send it to all other clients
         socket.broadcast.emit('mouse', data);
       }
     );
+
+    socket.on('image',
+      function(data) {
+        socket.broadcast.emit('image', data);
+    }
+  );
+
+  socket.on('imageDOM',
+      function(data) {
+        socket.broadcast.emit('imageDOM', data);
+    }
+  );
 
     socket.on('disconnect', function() {
           console.log("Client has disconnected");
