@@ -5,11 +5,19 @@ var short = require('short-uuid');
 
 app.use(fileupload());
 
-app.use(express.static("public"))
-app.use(express.static("public/media"))
+app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + '/public/media'))
+
+app.use(express.static(__dirname +'/node_modules/three'))
+app.use(express.static(__dirname +'/node_modules/three/build'))
+app.use(express.static(__dirname +'/node_modules/three/examples/jsm/controls'));
 
 app.get("/continous", (request, response) => {
   response.sendFile(__dirname + "/public/continous.html");
+});
+
+app.get("/cca", (request, response) => {
+  response.sendFile(__dirname + "/public/automata.html");
 });
 
 // listen for requests :)
@@ -24,8 +32,6 @@ function listen() {
   var port = server.address().port;
   console.log('Example app listening at http://' + host + ':' + port);
 }
-
-app.use(express.static('public'));
 
 
 // WebSocket Portion
