@@ -5,10 +5,87 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script type="text/javascript" src="https://cdn.socket.io/socket.io-1.4.5.js"></script>   
   </head>
-  <body>
+  <body>    
     <script src="three.min.js"></script>
     <script type="module" src="OrbitControls.js"></script>
     <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
-    <script src="/js/three-index.js"></script> 
+    <script type="text/javascript" src="dat.gui.min.js"></script>
+    <script id="vertexShader" type="x-shader/x-vertex">
+      varying vec2 texCoordVarying;
+  
+      void main() {
+          texCoordVarying = uv;
+          gl_Position =   projectionMatrix * 
+                          modelViewMatrix * 
+                          vec4(position,1.0);
+      }
+    </script>
+    <script id="fragmentShader" type="x-shader/x-vertex">
+          uniform sampler2D tex0;
+          varying vec2 texCoordVarying;
+          uniform float sharpAmnt;
+          uniform float steppp;
+          uniform float chi;
+          uniform float iFact;
+          uniform float time;
+          uniform float weight;
+
+          float li(float x, float y){
+            float t = mod(time,500.)/iFact;
+            float res = (1.-t)*x + t*y;
+
+            return res;
+          }
+
+          vec4 liv(vec4 u, vec4 v){
+            vec4 res = vec4(
+              li(u.x,v.x),
+              li(u.y,v.y),
+              li(u.z,v.z),
+              li(u.w,v.w)
+            );
+
+            return res;
+          }
+
+          vec4 zero2one(vec4 v){
+
+            vec4 res = vec4(
+              fract(abs(v.x)),
+              fract(abs(v.y)),
+              fract(abs(v.z)),
+              1.);
+
+              return res;
+          }
+
+
+          void main()
+          {
+            vec4 color_sharpen=vec4(0.);
+            vec4 inText = texture2D(tex0,texCoordVarying);
+            
+
+              color_sharpen=inText*chi+(-chi*weight)*(
+                texture2D(tex0,texCoordVarying+vec2(steppp,0))+
+                texture2D(tex0,texCoordVarying+vec2(-steppp,0))+
+                texture2D(tex0,texCoordVarying+vec2(0,steppp))+
+                texture2D(tex0,texCoordVarying+vec2(0,-steppp))+
+                texture2D(tex0,texCoordVarying+vec2(steppp,steppp))+
+                texture2D(tex0,texCoordVarying+vec2(-steppp,steppp))+
+                texture2D(tex0,texCoordVarying+vec2(steppp,-steppp))+
+                texture2D(tex0,texCoordVarying+vec2(-steppp,-steppp)));
+
+              color_sharpen=color_sharpen/9.;
+
+              color_sharpen=vec4(inText+ sharpAmnt*color_sharpen);
+
+              color_sharpen=zero2one(color_sharpen); 
+
+              gl_FragColor = liv(inText, color_sharpen);
+            }
+
+    </script>
+    <script type="module" src="/js/three-index.js"></script> 
   </body>  
 </html>
