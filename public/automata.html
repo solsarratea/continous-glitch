@@ -20,6 +20,17 @@
                           vec4(position,1.0);
       }
     </script>
+    <script id="finalShader" type="x-shader/x-vertex">
+      varying vec2 texCoordVarying;
+      uniform sampler2D texture;
+  
+      void main() {
+        vec4 inText = texture2D(texture,texCoordVarying);
+
+        gl_FragColor = inText;
+
+      }
+    </script>
     <script id="fragmentShader" type="x-shader/x-vertex">
           uniform sampler2D tex0;
           varying vec2 texCoordVarying;
@@ -29,6 +40,9 @@
           uniform float iFact;
           uniform float time;
           uniform float weight;
+          uniform vec2 resolution;
+          
+          
 
           float li(float x, float y){
             float t = mod(time,500.)/iFact;
@@ -62,23 +76,28 @@
 
           void main()
           {
+            vec2 texCoordVarying = gl_FragCoord.xy/resolution.xy;
             vec4 color_sharpen=vec4(0.);
             vec4 inText = texture2D(tex0,texCoordVarying);
+            float pixelX= 1./resolution.x * steppp;
+            float pixelY= 1./resolution.x * steppp;
             
 
               color_sharpen=inText*chi+(-chi*weight)*(
-                texture2D(tex0,texCoordVarying+vec2(steppp,0))+
-                texture2D(tex0,texCoordVarying+vec2(-steppp,0))+
-                texture2D(tex0,texCoordVarying+vec2(0,steppp))+
-                texture2D(tex0,texCoordVarying+vec2(0,-steppp))+
-                texture2D(tex0,texCoordVarying+vec2(steppp,steppp))+
-                texture2D(tex0,texCoordVarying+vec2(-steppp,steppp))+
-                texture2D(tex0,texCoordVarying+vec2(steppp,-steppp))+
-                texture2D(tex0,texCoordVarying+vec2(-steppp,-steppp)));
+                texture2D(tex0,texCoordVarying+vec2(pixelX,0))+
+                texture2D(tex0,texCoordVarying+vec2(-pixelX,0))+
+                texture2D(tex0,texCoordVarying+vec2(0,pixelY))+
+                texture2D(tex0,texCoordVarying+vec2(0,-pixelY))+
+                texture2D(tex0,texCoordVarying+vec2(pixelX,pixelY))+
+                texture2D(tex0,texCoordVarying+vec2(-pixelX,pixelY))+
+                texture2D(tex0,texCoordVarying+vec2(pixelX,-pixelY))+
+                texture2D(tex0,texCoordVarying+vec2(-pixelX,pixelY)));
 
               color_sharpen=color_sharpen/9.;
 
-              color_sharpen=vec4(inText+ sharpAmnt*color_sharpen);
+              float a = color_sharpen.r;
+
+              color_sharpen=vec4(inText * 4.* (a * a - color_sharpen.b)+ sharpAmnt*color_sharpen);
 
               color_sharpen=zero2one(color_sharpen); 
 
