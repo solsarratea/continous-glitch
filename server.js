@@ -18,6 +18,8 @@ const server = app.listen(8080, () => {
 });
 
 
+
+console.log('hello');
 // This call back just tells us that the server has started
 function listen() {
   var host = server.address().address;
@@ -26,7 +28,6 @@ function listen() {
 }
 
 app.use(express.static('public'));
-
 
 // WebSocket Portion
 // WebSockets work with the HTTP server
@@ -37,6 +38,31 @@ io.sockets.on('connection',
   
     console.log("New client: " + socket.id);
   
+    socket.on('hello',
+      function(data) {
+		console.log("got hello")
+        socket.broadcast.emit('hello', data);
+      }
+    );
+    socket.on('offer',
+      function(data) {
+		console.log("got offer")
+        socket.broadcast.emit('offer', data);
+      }
+    );
+    socket.on('answer',
+      function(data) {
+		console.log("got answer")
+        socket.broadcast.emit('answer', data);
+      }
+    );
+    socket.on('candidate',
+      function(data) {
+		console.log("got candidate")
+        socket.broadcast.emit('candidate', data);
+      }
+    );
+
     socket.on('mouse',
       function(data) {
         socket.broadcast.emit('mouse', data);

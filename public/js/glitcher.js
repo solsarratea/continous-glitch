@@ -383,7 +383,10 @@ function ditherGlitch(image){
     ctx.putImageData(imgData, 0, 0);
     newImage.src = canvas.toDataURL("image/png");
 
-    socket.emit('image',newImage.src);
+    datachannel.send(JSON.stringify({
+		kind: 'image',
+		path: newImage.src,
+	}));
     return newImage;
 }
 
