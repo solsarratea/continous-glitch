@@ -39,8 +39,8 @@ io.sockets.on('connection',
     console.log("New client: " + socket.id);
   
     socket.on('hello',
-      function(data) {
-		console.log("got hello")
+      function(from, data) {
+		console.log("got hello", from, data)
         socket.broadcast.emit('hello', data);
       }
     );
