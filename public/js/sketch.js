@@ -26,7 +26,7 @@ function draw() {
     loadPixels()
     var imgData = {data: pixels, width: 800, height: 600};
     randomGlitch(imgData);
-    datachannel.send(JSON.stringify({
+    broadcast(JSON.stringify({
 		kind: 'imageDOM',
 		path: imgB.src,
 	}));
